@@ -1,3 +1,4 @@
+from asyncio import current_task
 import math
 import random
 from DataStructures.List import array_list as al
@@ -39,28 +40,37 @@ def default_compare(key, entry):
    return -1
 
 def new_map(num_elements, load_factor, prime=109345121):
-    capacity = next_prime(int(num_elements / load_factor))
+    if load_factor <= 0:
+        raise ValueError("El load_factor debe ser mayor que 0")
     
-    # Valores fijos para pruebas, de lo contrario, usa valores aleatorios
-    scale = 1  # random.randint(1, prime - 1)
-    shift = 0  # random.randint(0, prime - 1)
+    raw_capacity = int(num_elements / load_factor)
+    if raw_capacity < 1:
+        raw_capacity = 3  # capacidad mínima segura
+    
+    capacity = next_prime(raw_capacity)
+    if capacity < 1:
+        capacity = 3  # fallback de seguridad
+
+    # Valores fijos para pruebas
+    scale = 1
+    shift = 0
     table = al.new_list()
 
     for _ in range(capacity):
         al.add_last(table, {'key': None, 'value': None})
-    
+
     new_table = {
         'prime': prime,
         'capacity': capacity,
-        'scale': random.randint(1, prime - 1),
-        'shift': random.randint(0, prime - 1),
+        'scale': scale,
+        'shift': shift,
         'table': table,
         'current_factor': 0,
         'limit_factor': load_factor,
         'size': 0
     }
-    
-    return new_table
+
+    return new_table 
 
 
 
