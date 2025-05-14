@@ -257,35 +257,3 @@ def format_vertex(service):
     name = name + service['ServiceNo']
     return name
 
-
-# Crea un grafo vacío
-my_graph = G.new_graph(1)
-
-# Inserta vértices
-my_graph = G.insert_vertex(my_graph, "Pasto", {"nombre": "Pasto", "poblacion": 400000})
-my_graph = G.insert_vertex(my_graph, "Ibague", {"nombre": "Ibague", "poblacion": 500000})
-my_graph = G.insert_vertex(my_graph, "Monteria", {"nombre": "Monteria", "poblacion": 300000})
-
-# Inserta arcos
-my_graph = G.add_edge(my_graph, "Pasto", "Ibague", 120)
-my_graph = G.add_edge(my_graph, "Pasto", "Monteria", 250)
-
-# Consulta de arcos salientes del vértice 'Pasto'
-edges = G.edges_vertex(my_graph, "Pasto")
-for edge in edges:
-    print(edge)
-# Salida esperada (dependiendo de la representación interna, algo como):
-# ('Pasto', 'Ibague', 120)
-# ('Pasto', 'Monteria', 250)
-
-# Consulta de arcos salientes para un vértice sin conexiones
-edges = G.edges_vertex(my_graph, "Ibague")
-print(edges)
-# Salida esperada: []
-
-# Consulta de arcos salientes para un vértice inexistente
-try:
-    edges = G.edges_vertex(my_graph, "Leticia")
-except Exception as e:
-    print(e)
-# Salida esperada: El vertice no existe
